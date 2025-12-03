@@ -333,51 +333,55 @@ with tab1:
         if st.button("📥 READ DATA", type="primary", use_container_width=True):
             with st.spinner("🧑‍🏫 กำลังอ่านข้อมูล (Reading Data)..."):
                 
-                try:
-                    # Load Job File
-                    df_imp = load_job_file(uploaded_job)
-                    st.session_state['df_import_state'] = df_imp
+                # ... (โค้ดโหลดไฟล์ df_imp และ df_cap ด้านบนเหมือนเดิม) ...
                     
-                    # Load Capacity File using the uploaded object
-                    df_cap = load_capacity_file(uploaded_capacity)
                     st.session_state['df_capacity_data'] = df_cap # Store DF for later use
                     st.toast("✅ Both files loaded successfully", icon="🔗")
                     
-                    # --- 🟢 ส่วนที่เพิ่มใหม่: เตรียมข้อมูลเพื่อหา Part No without Cycletime (เฉพาะ ZUND) ---
-                    # หาชื่อคอลัมน์ก่อนเพื่อใช้ในการ Filter
+                    # =======================================================
+                    # 🔴 ส่วนที่แก้ไข: กรองเฉพาะ ZUND ก่อนสร้าง List 0.45
+                    # =======================================================
+                    
+                    # 1. หาชื่อคอลัมน์ให้เจอก่อน
                     cols = df_imp.columns
                     c_p_temp = find_column_by_keyword(cols, ['Part Number', 'Part', 'Model'])
                     c_m_temp = find_column_by_keyword(cols, ['Machine', 'Resource'])
                     
-                    # ถ้าหาคอลัมน์เจอ ให้ทำการ Filter
+                    found_list = []
+
                     if c_p_temp and c_m_temp:
-                         # 1. เตรียมข้อมูล Capacity
+                         # 2. เตรียมข้อมูล Capacity (Part ที่มี K=0.45)
                         c_cp = find_column_by_keyword(df_cap.columns, ['Part No', 'Part']) or df_cap.columns[1]
-                        if len(df_cap.columns) > 11:
-                             col_k = df_cap.columns[10]
+                        
+                        # ตรวจสอบว่ามีคอลัมน์ K (index 10) ไหม
+                        if len(df_cap.columns) > 10:
+                             col_k = df_cap.columns[10] # Column K
+                             
+                             # สร้างตารางชั่วคราวจาก Capacity
                              t_cap = df_cap[[c_cp, col_k]].copy()
                              t_cap.columns = ['Part', 'K']
                              t_cap['K'] = pd.to_numeric(t_cap['K'], errors='coerce').fillna(0)
                              t_cap['Part'] = t_cap['Part'].astype(str).str.strip()
-                             t_cap = t_cap.drop_duplicates(subset=['Part'], keep='first')
                              
-                             # รายการ Part ใน Capacity ที่ K ประมาณ 0.45
-                             f_045 = t_cap[(t_cap['K'] - 0.45).abs() < 0.001]['Part'].tolist()
+                             # รายการ Part ทั้งหมดในโลกที่มี K = 0.45
+                             f_045_all = t_cap[(t_cap['K'] - 0.45).abs() < 0.001]['Part'].tolist()
                              
-                             # 2. Filter df_import เอาเฉพาะแถวที่เป็นเครื่อง ZUND
-                             zund_mask = df_imp[c_m_temp].astype(str).str.upper().str.startswith('ZUND')
-                             df_zund_only = df_imp[zund_mask]
+                             # 3. 🔎 FILTER: กรอง Job File เอาเฉพาะบรรทัดที่เป็น ZUND
+                             # เช็คว่าคอลัมน์ Machine ขึ้นต้นด้วย ZUND หรือไม่ (ไม่สนตัวพิมพ์เล็กใหญ่)
+                             mask_zund = df_imp[c_m_temp].astype(str).str.upper().str.strip().str.startswith('ZUND')
+                             df_zund_only = df_imp[mask_zund]
                              
-                             # 3. ดึง Part เฉพาะจากเครื่อง ZUND
-                             imp_p_zund = df_zund_only[c_p_temp].astype(str).str.strip().unique()
+                             # 4. ดึง Part Number ที่มีอยู่จริงในงาน ZUND เท่านั้น
+                             parts_in_zund_job = df_zund_only[c_p_temp].astype(str).str.strip().unique()
                              
-                             # 4. Intersection: Part ที่ K=0.45 และ เป็นงานของ ZUND
-                             st.session_state['found_045_list'] = [p for p in f_045 if p in imp_p_zund]
-                        else:
-                             st.session_state['found_045_list'] = []
-                    else:
-                        st.session_state['found_045_list'] = []
-                    # -----------------------------------------------------------------------
+                             # 5. หาจุดตัด (Intersection): 
+                             # เอา Part ที่เป็น 0.45 และ ต้องอยู่ในงาน ZUND ด้วย
+                             found_list = [p for p in f_045_all if p in parts_in_zund_job]
+                    
+                    # บันทึกลง Session State เพื่อเอาไปแสดงในตารางแจ้งเตือน
+                    st.session_state['found_045_list'] = found_list
+                    
+                    # =======================================================
 
                 except Exception as e:
                     st.error(f"❌ File Load Error: {e}")
@@ -925,3 +929,4 @@ with tab4:
                 
             except Exception as e:
                 st.error(f"❌ Error during file generation: {e}")
+
