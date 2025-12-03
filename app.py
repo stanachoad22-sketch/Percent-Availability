@@ -333,16 +333,6 @@ with tab1:
         if st.button("📥 READ DATA", type="primary", use_container_width=True):
             with st.spinner("🧑‍🏫 กำลังอ่านข้อมูล (Reading Data)..."):
                 
-                # Reset setup states
-                st.session_state['hours_setup_df'] = pd.DataFrame()
-                st.session_state['df_045_setup'] = pd.DataFrame()
-                st.session_state['processing_stage'] = 'init'
-                st.session_state['data_loaded'] = False
-
-                if not uploaded_job or not uploaded_capacity:
-                    st.warning("⚠️ Please upload both Capacity and Job files.")
-                    st.stop()
-                
                 try:
                     # Load Job File
                     df_imp = load_job_file(uploaded_job)
@@ -353,6 +343,42 @@ with tab1:
                     st.session_state['df_capacity_data'] = df_cap # Store DF for later use
                     st.toast("✅ Both files loaded successfully", icon="🔗")
                     
+                    # --- 🟢 ส่วนที่เพิ่มใหม่: เตรียมข้อมูลเพื่อหา Part No without Cycletime (เฉพาะ ZUND) ---
+                    # หาชื่อคอลัมน์ก่อนเพื่อใช้ในการ Filter
+                    cols = df_imp.columns
+                    c_p_temp = find_column_by_keyword(cols, ['Part Number', 'Part', 'Model'])
+                    c_m_temp = find_column_by_keyword(cols, ['Machine', 'Resource'])
+                    
+                    # ถ้าหาคอลัมน์เจอ ให้ทำการ Filter
+                    if c_p_temp and c_m_temp:
+                         # 1. เตรียมข้อมูล Capacity
+                        c_cp = find_column_by_keyword(df_cap.columns, ['Part No', 'Part']) or df_cap.columns[1]
+                        if len(df_cap.columns) > 11:
+                             col_k = df_cap.columns[10]
+                             t_cap = df_cap[[c_cp, col_k]].copy()
+                             t_cap.columns = ['Part', 'K']
+                             t_cap['K'] = pd.to_numeric(t_cap['K'], errors='coerce').fillna(0)
+                             t_cap['Part'] = t_cap['Part'].astype(str).str.strip()
+                             t_cap = t_cap.drop_duplicates(subset=['Part'], keep='first')
+                             
+                             # รายการ Part ใน Capacity ที่ K ประมาณ 0.45
+                             f_045 = t_cap[(t_cap['K'] - 0.45).abs() < 0.001]['Part'].tolist()
+                             
+                             # 2. Filter df_import เอาเฉพาะแถวที่เป็นเครื่อง ZUND
+                             zund_mask = df_imp[c_m_temp].astype(str).str.upper().str.startswith('ZUND')
+                             df_zund_only = df_imp[zund_mask]
+                             
+                             # 3. ดึง Part เฉพาะจากเครื่อง ZUND
+                             imp_p_zund = df_zund_only[c_p_temp].astype(str).str.strip().unique()
+                             
+                             # 4. Intersection: Part ที่ K=0.45 และ เป็นงานของ ZUND
+                             st.session_state['found_045_list'] = [p for p in f_045 if p in imp_p_zund]
+                        else:
+                             st.session_state['found_045_list'] = []
+                    else:
+                        st.session_state['found_045_list'] = []
+                    # -----------------------------------------------------------------------
+
                 except Exception as e:
                     st.error(f"❌ File Load Error: {e}")
                     st.stop()
