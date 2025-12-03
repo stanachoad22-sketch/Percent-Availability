@@ -15,21 +15,18 @@ st.set_page_config(layout="centered", page_title="Production Dashboard", page_ic
 st.markdown(
     """
     <style>
-        /* 1. Import Modern Font */
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap');
         
         :root {
-            --bg-main: #f5f5f7;        /* Light, slightly off-white background */
-            --bg-card: #ffffff;        /* Pure white for cards */
-            --border-color: #e0e0e4;   /* Light gray border */
-            
-            --text-dark: #1f2937;      /* Dark text for main content */
-            --text-normal: #374151;    /* Standard gray text */
-            --text-muted: #9ca3af;     /* Muted gray for secondary info */
-            
-            --accent-primary: #1e3a8a; /* Deep blue for primary actions */
-            --accent-light: #3b82f6;   /* Bright blue for tabs/hover */
-            --header-light: #f3f4f6;   /* Light gray for Table Headers */
+            --bg-main: #f5f5f7;
+            --bg-card: #ffffff;
+            --border-color: #e0e0e4;
+            --text-dark: #1f2937;
+            --text-normal: #374151;
+            --text-muted: #9ca3af;
+            --accent-primary: #1e3a8a;
+            --accent-light: #3b82f6;
+            --header-light: #f3f4f6;
         }
 
         html, body, [class*="css"] {
@@ -37,13 +34,11 @@ st.markdown(
             color: var(--text-normal);
         }
         
-        /* 2. Cleaner, Lighter Background */
         .stApp {
             background-color: var(--bg-main);
             background-attachment: fixed;
         }
 
-        /* 3. Header Styling */
         h1 {
             color: var(--accent-primary) !important;
             font-weight: 800 !important;
@@ -51,7 +46,7 @@ st.markdown(
             text-align: center;
             padding-bottom: 30px;
             letter-spacing: -1px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.05);
         }
         
         h3 {
@@ -67,10 +62,10 @@ st.markdown(
              font-size: 1.0rem;
         }
 
-        /* 4. Tabs Styling */
+        /* Tabs Styling */
         .stTabs [data-baseweb="tab-list"] {
             gap: 15px;
-            background-color: var(--bg-card); /* White tab container */
+            background-color: var(--bg-card);
             padding: 10px;
             border-radius: 80px;
             border: 1px solid var(--border-color);
@@ -96,19 +91,19 @@ st.markdown(
         
         .stTabs [data-baseweb="tab"]:hover {
             color: var(--accent-primary);
-            background-color: var(--header-light); /* Light hover background */
+            background-color: var(--header-light);
             text-shadow: none;
         }
 
         .stTabs [aria-selected="true"] {
-            background: var(--accent-primary); /* Deep blue selected tab */
-            color: var(--bg-card) !important; /* White text on blue */
+            background: var(--accent-primary);
+            color: var(--bg-card) !important;
             font-weight: 800;
             box-shadow: 0 5px 15px rgba(30, 58, 138, 0.4);
             text-shadow: none;
         }
 
-        /* 5. Card Container */
+        /* Card Container */
         [data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"] {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -117,16 +112,10 @@ st.markdown(
             box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
         }
         
-        [data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"]:hover {
-            border-color: var(--accent-light);
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.08);
-        }
-
-        /* 6. Buttons */
+        /* Buttons */
         .stButton > button {
             background: var(--accent-primary);
-            color: var(--bg-card) !important; /* White text on button */
+            color: var(--bg-card) !important;
             border: none;
             border-radius: 10px;
             font-weight: 700;
@@ -139,12 +128,12 @@ st.markdown(
             transition: all 0.2s;
         }
         .stButton > button:hover {
-             background-color: var(--accent-light); /* Lighter blue on hover */
+             background-color: var(--accent-light);
              transform: translateY(-2px);
              box-shadow: 0 8px 20px rgba(60, 100, 200, 0.5);
         }
 
-        /* 7. DataFrame Styling */
+        /* DataFrame Styling */
         [data-testid="stDataFrame"] {
             background-color: var(--bg-card);
             border-radius: 12px;
@@ -152,7 +141,7 @@ st.markdown(
             overflow: hidden;
         }
         [data-testid="stDataFrame"] th {
-            background-color: var(--header-light) !important; /* Light gray header */
+            background-color: var(--header-light) !important;
             color: var(--text-dark) !important;
             font-size: 0.95rem;
             font-weight: 600;
@@ -163,7 +152,7 @@ st.markdown(
             font-size: 0.95rem;
         }
 
-        /* 8. File Uploader */
+        /* File Uploader */
         .stFileUploader {
             width: 100%;
             background-color: var(--bg-card) !important;
@@ -181,7 +170,7 @@ st.markdown(
             font-size: 0.85rem;
         }
         
-        /* 9. Input fields */
+        /* Input fields */
         [data-baseweb="input"], [data-baseweb="select"], [data-testid="stDataEditor"] {
             background-color: var(--bg-card) !important;
             border: 1px solid var(--border-color) !important;
@@ -189,22 +178,14 @@ st.markdown(
             border-radius: 8px !important;
             font-weight: 500;
         }
-        [data-baseweb="input"]:focus-within, [data-baseweb="select"]:focus-within {
-            border-color: var(--accent-primary) !important;
-            box-shadow: 0 0 0 1px var(--accent-primary) inset;
-        }
         
-        /* 10. Expander */
+        /* Expander */
         .streamlit-expanderHeader {
             background-color: var(--header-light) !important;
             color: var(--text-dark) !important;
             font-weight: 600;
             border-radius: 10px !important;
             border: 1px solid var(--border-color) !important;
-        }
-        .streamlit-expanderHeader:hover {
-            color: var(--accent-primary) !important;
-            border-color: var(--accent-light) !important;
         }
         .streamlit-expanderContent {
             background-color: var(--bg-card) !important;
@@ -231,7 +212,7 @@ st.markdown(
 # --- Header ---
 st.title("Percent Availability")
 
-# --- Helper Functions (No changes needed) ---
+# --- Helper Functions ---
 def validate_and_convert_hhmm(val):
     val_str = str(val).strip()
     if not re.match(r'^\d{1,2}:\d{1,2}$', val_str): return False, 0.0
@@ -257,11 +238,9 @@ def get_shift_from_datetime(dt_val):
 @st.cache_data(ttl=3600, show_spinner=False)
 def load_capacity_file(uploaded_file):
     try:
-        # Load from uploaded file object
         return pd.read_excel(uploaded_file, sheet_name="Capacity Counter")
     except:
-        # Fallback if sheet name is not found
-        uploaded_file.seek(0) # Reset pointer
+        uploaded_file.seek(0) 
         return pd.read_excel(uploaded_file)
 
 @st.cache_data(ttl=3600, show_spinner=False)
@@ -298,31 +277,32 @@ tab1, tab2, tab3, tab4 = st.tabs([
 ])
 
 # ==========================================
-# TAB 1: Efficiency Calculator (ZUND) - MODIFIED FOR UPLOAD
+# TAB 1: Efficiency Calculator (ZUND)
 # ==========================================
 with tab1:
     if 'processing_stage' not in st.session_state: st.session_state['processing_stage'] = 'init'
     if 'data_loaded' not in st.session_state: st.session_state['data_loaded'] = False
     if 'df_import_state' not in st.session_state: st.session_state['df_import_state'] = None
-    # 'df_capacity_data' stores the content/dataframe of the capacity file
     if 'df_capacity_data' not in st.session_state: st.session_state['df_capacity_data'] = None 
     if 'hours_setup_df' not in st.session_state: st.session_state['hours_setup_df'] = pd.DataFrame()
+    if 'found_045_list' not in st.session_state: st.session_state['found_045_list'] = []
     
     # Input Card
     with st.container():
         st.markdown("### 📤 Upload Files")
         
-        # 1. Capacity File Uploader
-        uploaded_capacity = st.file_uploader(
+        # ✅ Layout แบบ 2 คอลัมน์ (ซ้าย-ขวา)
+        c1, c2 = st.columns(2)
+        
+        uploaded_capacity = c1.file_uploader(
             "1. Upload Capacity File", 
             type=['xlsx'], 
             key="capacity_ul", 
             label_visibility="visible"
         )
         
-        # 2. Job File Uploader
-        uploaded_job = st.file_uploader(
-            "2. Zund File", 
+        uploaded_job = c2.file_uploader(
+            "2. Zund File (Production)", 
             type=['xlsx', 'csv'], 
             key="job_ul", 
             label_visibility="visible"
@@ -333,65 +313,72 @@ with tab1:
         if st.button("📥 READ DATA", type="primary", use_container_width=True):
             with st.spinner("🧑‍🏫 กำลังอ่านข้อมูล (Reading Data)..."):
                 
-                # Reset setup states
+                # 1. Reset ค่าระบบ
                 st.session_state['hours_setup_df'] = pd.DataFrame()
                 st.session_state['df_045_setup'] = pd.DataFrame()
                 st.session_state['processing_stage'] = 'init'
                 st.session_state['data_loaded'] = False
+                st.session_state['found_045_list'] = [] 
 
                 if not uploaded_job or not uploaded_capacity:
                     st.warning("⚠️ Please upload both Capacity and Job files.")
                     st.stop()
                 
                 try:
-                    # 1. Load Job File
+                    # 2. โหลดไฟล์
                     df_imp = load_job_file(uploaded_job)
                     st.session_state['df_import_state'] = df_imp
                     
-                    # 2. Load Capacity File
                     df_cap = load_capacity_file(uploaded_capacity)
                     st.session_state['df_capacity_data'] = df_cap 
-                    st.toast("✅ Both files loaded successfully", icon="🔗")
-                    
-                    # --- 🟢 ส่วนกรองเฉพาะ ZUND เพื่อหา Part No without Cycletime ---
-                    
-                    # หาชื่อคอลัมน์
-                    cols = df_imp.columns
-                    c_p_temp = find_column_by_keyword(cols, ['Part Number', 'Part', 'Model'])
-                    c_m_temp = find_column_by_keyword(cols, ['Machine', 'Resource'])
-                    
-                    found_list = []
+                    st.toast("✅ Files loaded.", icon="📂")
 
-                    if c_p_temp and c_m_temp:
-                         # เตรียมข้อมูล Capacity
-                        c_cp = find_column_by_keyword(df_cap.columns, ['Part No', 'Part']) or df_cap.columns[1]
+                    # =======================================================
+                    # 🔴 LOGIC STRICT MODE: กรอง ZUND จากคอลัมน์ B และ E เท่านั้น
+                    # =======================================================
+                    final_list = []
+
+                    # ตรวจสอบว่าไฟล์ Job มีอย่างน้อย 5 คอลัมน์ (Index 0 ถึง 4)
+                    if len(df_imp.columns) >= 5:
                         
+                        # --- STEP A: หา Part ที่มีปัญหา (K=0.45) จากไฟล์ Capacity ---
+                        c_p_cap = find_column_by_keyword(df_cap.columns, ['Part No', 'Part']) or df_cap.columns[1]
+                        bad_parts_all = []
                         if len(df_cap.columns) > 10:
-                             col_k = df_cap.columns[10] # Column K
-                             
-                             t_cap = df_cap[[c_cp, col_k]].copy()
-                             t_cap.columns = ['Part', 'K']
-                             t_cap['K'] = pd.to_numeric(t_cap['K'], errors='coerce').fillna(0)
-                             t_cap['Part'] = t_cap['Part'].astype(str).str.strip()
-                             
-                             # หา Part ทั้งหมดที่ K=0.45
-                             f_045_all = t_cap[(t_cap['K'] - 0.45).abs() < 0.001]['Part'].tolist()
-                             
-                             # 🔎 Filter: กรองเอาเฉพาะแถวที่เป็น ZUND ใน Job File
-                             mask_zund = df_imp[c_m_temp].astype(str).str.upper().str.strip().str.startswith('ZUND')
-                             df_zund_only = df_imp[mask_zund]
-                             
-                             # ดึง Part Number ที่มีอยู่จริงในงาน ZUND
-                             parts_in_zund_job = df_zund_only[c_p_temp].astype(str).str.strip().unique()
-                             
-                             # Intersection: เอาเฉพาะ Part 0.45 ที่เป็นงาน ZUND
-                             found_list = [p for p in f_045_all if p in parts_in_zund_job]
-                    
-                    st.session_state['found_045_list'] = found_list
-                    # -------------------------------------------------------------
+                            col_k = df_cap.columns[10] # Column K (Index 10)
+                            t_cap = df_cap[[c_p_cap, col_k]].copy()
+                            t_cap.columns = ['Part', 'K']
+                            t_cap['K'] = pd.to_numeric(t_cap['K'], errors='coerce').fillna(0)
+                            # Part ทั้งหมดที่เป็น 0.45
+                            bad_parts_all = t_cap[(t_cap['K'] - 0.45).abs() < 0.001]['Part'].astype(str).str.strip().tolist()
+
+                        # --- STEP B: กรองไฟล์ Job (Force Column B & E) ---
+                        # col_machine = Column Index 1 (B)
+                        # col_part    = Column Index 4 (E)
+                        col_machine = df_imp.iloc[:, 1].astype(str).str.strip().str.upper() 
+                        col_part = df_imp.iloc[:, 4].astype(str).str.strip()             
+                        
+                        # สร้างเงื่อนไข: ต้องขึ้นต้นด้วย "ZUND" เท่านั้น (BEAM PRESS จะเป็น False)
+                        is_zund_row = col_machine.str.startswith('ZUND')
+                        
+                        # ดึงชื่อ Part เฉพาะบรรทัดที่เป็น ZUND
+                        parts_from_zund_only = col_part[is_zund_row].unique()
+                        
+                        # --- STEP C: Intersection (ตัวที่ซ้ำกัน) ---
+                        final_list = [p for p in bad_parts_all if p in parts_from_zund_only]
+                        
+                        # แจ้งเตือนจำนวนแถวที่เจอ ZUND (Debug Info)
+                        # st.toast(f"Found {is_zund_row.sum()} ZUND rows used for filtering.", icon="ℹ️")
+                        
+                    else:
+                        st.error("❌ ไฟล์ Job Format ผิด: มีจำนวนคอลัมน์ไม่ถึง 5 คอลัมน์ (ต้องมีถึง Column E)")
+
+                    # บันทึกผลลัพธ์
+                    st.session_state['found_045_list'] = final_list
+                    # =======================================================
 
                 except Exception as e:
-                    st.error(f"❌ File Load Error: {e}")
+                    st.error(f"❌ Error: {e}")
                     st.stop()
                 
                 st.session_state['data_loaded'] = True
@@ -402,9 +389,9 @@ with tab1:
         with st.container():
             st.markdown("### ⚙️ Settings")
             df_import = st.session_state['df_import_state']
-            df_capacity = st.session_state['df_capacity_data'] # Use stored DF
+            df_capacity = st.session_state['df_capacity_data'] 
             
-            # Map Columns Logic (Initial setup only if not already done or recalculated)
+            # Map Columns Logic (For Calculation - Still uses flexible search for other calculations)
             if 'col_map' not in st.session_state or st.session_state['hours_setup_df'].empty:
                 cols = df_import.columns
                 c_p = find_column_by_keyword(cols, ['Part Number', 'Part', 'Model'])
@@ -413,45 +400,43 @@ with tab1:
                 c_t = find_column_by_keyword(cols, ['Date OUT', 'Time OUT', 'Date', 'Time'])
                 
                 if not all([c_p, c_m, c_q, c_t]): 
-                    st.error("❌ Column mismatch in Job File.")
+                    st.error("❌ Column mismatch in Job File (For Calculation).")
                 else:
                     st.session_state['col_map'] = {'part': c_p, 'machine': c_m, 'qty': c_q, 'time': c_t}
                     st.session_state['machines'] = sorted(df_import[c_m].astype(str).unique())
                     
+                    # Prepare Capacity Dictionary for Calculation
                     c_cp = find_column_by_keyword(df_capacity.columns, ['Part No', 'Part']) or df_capacity.columns[1]
-                    
                     if len(df_capacity.columns) > 11:
                          col_k = df_capacity.columns[10]
                          col_l = df_capacity.columns[11]
+                         t_cap = df_capacity[[c_cp, col_k, col_l]].copy()
+                         t_cap.columns = ['Part', 'K', 'L']
+                         t_cap['K'] = pd.to_numeric(t_cap['K'], errors='coerce').fillna(0)
+                         t_cap['L'] = pd.to_numeric(t_cap['L'], errors='coerce').fillna(1)
+                         t_cap['Part'] = t_cap['Part'].astype(str).str.strip()
+                         t_cap = t_cap.drop_duplicates(subset=['Part'], keep='first')
+                         st.session_state['capacity_dict'] = t_cap.set_index('Part')[['K', 'L']].to_dict('index')
                     else:
-                         st.error("❌ Capacity file structure error: Missing K/L columns (Expected >= 12).")
+                         st.error("❌ Capacity file structure error: Missing K/L columns.")
                          st.stop()
-                         
-                    t_cap = df_capacity[[c_cp, col_k, col_l]].copy()
-                    t_cap.columns = ['Part', 'K', 'L']
-                    t_cap['K'] = pd.to_numeric(t_cap['K'], errors='coerce').fillna(0)
-                    t_cap['L'] = pd.to_numeric(t_cap['L'], errors='coerce').fillna(1)
-                    t_cap['Part'] = t_cap['Part'].astype(str).str.strip()
-                    t_cap = t_cap.drop_duplicates(subset=['Part'], keep='first')
-                    st.session_state['capacity_dict'] = t_cap.set_index('Part')[['K', 'L']].to_dict('index')
-                    f_045 = t_cap[(t_cap['K'] - 0.45).abs() < 0.001]['Part'].tolist()
-                    imp_p = df_import[c_p].astype(str).str.strip().unique()
-                    st.session_state['found_045_list'] = [p for p in f_045 if p in imp_p]
 
-            if 'df_045_setup' not in st.session_state: st.session_state['df_045_setup'] = pd.DataFrame()
-            if st.session_state['df_045_setup'].empty and 'found_045_list' in st.session_state:
-                st.session_state['df_045_setup'] = pd.DataFrame([{"Part": p, "New K": 0.45} for p in st.session_state.get('found_045_list', [])])
-            
+            # Set up DataFrame for the 0.45 Alert Table (Using the filtered list from strict logic)
+            if st.session_state.get('found_045_list'):
+                 st.session_state['df_045_setup'] = pd.DataFrame([{"Part": p, "New K": 0.45} for p in st.session_state['found_045_list']])
+            else:
+                 st.session_state['df_045_setup'] = pd.DataFrame()
+
             if st.session_state['hours_setup_df'].empty and 'machines' in st.session_state:
                 st.session_state['hours_setup_df'] = pd.DataFrame([
                     {"MC": m, "Day": "08:00", "Night": "08:00", "Stat": "ปกติ"} 
                     for m in st.session_state['machines']
                 ])
 
-            # 4. K-Value Expander
+            # 4. K-Value Expander (Show only ZUND parts that are 0.45)
             edited_k_df = st.session_state['df_045_setup']
             if not edited_k_df.empty:
-                with st.expander("⚠️ Part No without Cycletime", expanded=False):
+                with st.expander("⚠️ Part No without Cycletime (ZUND Only)", expanded=False):
                     edited_k_df = st.data_editor(
                         edited_k_df, 
                         use_container_width=True, 
@@ -519,8 +504,7 @@ with tab1:
                             try:
                                 new_k = float(r['New K'])
                                 if str(r['Part']) in cur_map: cur_map[str(r['Part'])]['K'] = new_k
-                            except:
-                                pass
+                            except: pass
 
                     cols = st.session_state['col_map']
                     df_c = df_import.copy()
@@ -593,7 +577,6 @@ with tab1:
         st.write("")
         with st.expander("📊 Calculation Results", expanded=True):
             
-            # Formatter logic
             df_show = st.session_state['final_result'].copy()
             
             def clean_time(val):
@@ -635,7 +618,7 @@ with tab1:
             )
 
 # ==========================================
-# TAB 2: Skive Merge Tool (Unchanged)
+# TAB 2: Skive Merge Tool
 # ==========================================
 with tab2:
     if 'skive_result_df' not in st.session_state: st.session_state['skive_result_df'] = None
@@ -649,51 +632,58 @@ with tab2:
         sk_f2 = c2.file_uploader("2. Stock File", type=['xlsx', 'csv'], key="sk2")
         
         st.write("")
-        if sk_f1 and sk_f2:
+        # ✅ แก้ไข: ใช้เงื่อนไข OR (มีไฟล์เดียวก็ทำงานได้)
+        if sk_f1 or sk_f2:
             if st.button("Merge Files", key="btn_skive", type="primary", use_container_width=True):
                 try:
-                    df1 = load_job_file(sk_f1)
-                    df2 = load_job_file(sk_f2)
+                    # ✅ เช็คทีละไฟล์ ถ้ามีก็โหลด ถ้าไม่มีก็สร้าง DataFrame ว่าง
+                    df1 = load_job_file(sk_f1) if sk_f1 else pd.DataFrame()
+                    df2 = load_job_file(sk_f2) if sk_f2 else pd.DataFrame()
+                    
                     combined = pd.concat([df1, df2], ignore_index=True)
-                    cols = combined.columns
                     
-                    c_mc = find_column_by_keyword(cols, ['Machine', 'Resource', 'เครื่อง'])
-                    if not c_mc and len(cols) > 1: c_mc = cols[1]
-                    c_qty = find_column_by_keyword(cols, ['Machine Qty', 'Qty', 'จำนวน'])
-                    if not c_qty and len(cols) > 5: c_qty = cols[5]
-                    c_time = find_column_by_keyword(cols, ['Time', 'เวลา', 'Date', 'วันที่'])
-                    if not c_time: c_time = cols[0] 
-                    
-                    if c_mc and c_qty:
-                        ref_machines = pd.DataFrame({
-                            'MC_Int': range(1, 16),
-                            'MC_Show': [f"SKIVING {i:03d}" for i in range(1, 16)]
-                        })
-                        combined['MC_Int'] = combined[c_mc].astype(str).apply(
-                            lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else -1
-                        )
-                        combined[c_qty] = pd.to_numeric(combined[c_qty], errors='coerce').fillna(0)
-                        combined['Shift'] = combined[c_time].apply(get_shift_from_datetime)
-                        
-                        pivoted = combined.pivot_table(index='MC_Int', columns='Shift', values=c_qty, aggfunc='sum', fill_value=0).reset_index()
-                        for s in ['Day', 'Night']:
-                            if s not in pivoted.columns: pivoted[s] = 0
-                        
-                        final_skive = pd.merge(ref_machines, pivoted, on='MC_Int', how='left')
-                        final_skive['Day'] = final_skive['Day'].fillna(0)
-                        final_skive['Night'] = final_skive['Night'].fillna(0)
-                        final_skive['Total'] = final_skive['Day'] + final_skive['Night']
-                        
-                        st.session_state['skive_raw_df'] = final_skive.copy()
-                        def fmt(x): return f"{int(x):,}" if x > 0 else "-"
-                        final_skive['Day_Show'] = final_skive['Day'].apply(fmt)
-                        final_skive['Night_Show'] = final_skive['Night'].apply(fmt)
-                        final_skive['Total_Show'] = final_skive['Total'].apply(fmt)
-                        
-                        st.session_state['skive_result_df'] = final_skive[['MC_Show', 'Day_Show', 'Night_Show', 'Total_Show']]
-                        st.toast("✅ Merge Successful!", icon="🎉")
+                    if combined.empty:
+                         st.warning("⚠️ No data found in uploaded files.")
                     else:
-                        st.error("❌ Column Missing")
+                        cols = combined.columns
+                        
+                        c_mc = find_column_by_keyword(cols, ['Machine', 'Resource', 'เครื่อง'])
+                        if not c_mc and len(cols) > 1: c_mc = cols[1]
+                        c_qty = find_column_by_keyword(cols, ['Machine Qty', 'Qty', 'จำนวน'])
+                        if not c_qty and len(cols) > 5: c_qty = cols[5]
+                        c_time = find_column_by_keyword(cols, ['Time', 'เวลา', 'Date', 'วันที่'])
+                        if not c_time: c_time = cols[0] 
+                        
+                        if c_mc and c_qty:
+                            ref_machines = pd.DataFrame({
+                                'MC_Int': range(1, 16),
+                                'MC_Show': [f"SKIVING {i:03d}" for i in range(1, 16)]
+                            })
+                            combined['MC_Int'] = combined[c_mc].astype(str).apply(
+                                lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else -1
+                            )
+                            combined[c_qty] = pd.to_numeric(combined[c_qty], errors='coerce').fillna(0)
+                            combined['Shift'] = combined[c_time].apply(get_shift_from_datetime)
+                            
+                            pivoted = combined.pivot_table(index='MC_Int', columns='Shift', values=c_qty, aggfunc='sum', fill_value=0).reset_index()
+                            for s in ['Day', 'Night']:
+                                if s not in pivoted.columns: pivoted[s] = 0
+                            
+                            final_skive = pd.merge(ref_machines, pivoted, on='MC_Int', how='left')
+                            final_skive['Day'] = final_skive['Day'].fillna(0)
+                            final_skive['Night'] = final_skive['Night'].fillna(0)
+                            final_skive['Total'] = final_skive['Day'] + final_skive['Night']
+                            
+                            st.session_state['skive_raw_df'] = final_skive.copy()
+                            def fmt(x): return f"{int(x):,}" if x > 0 else "-"
+                            final_skive['Day_Show'] = final_skive['Day'].apply(fmt)
+                            final_skive['Night_Show'] = final_skive['Night'].apply(fmt)
+                            final_skive['Total_Show'] = final_skive['Total'].apply(fmt)
+                            
+                            st.session_state['skive_result_df'] = final_skive[['MC_Show', 'Day_Show', 'Night_Show', 'Total_Show']]
+                            st.toast("✅ Merge Successful!", icon="🎉")
+                        else:
+                            st.error("❌ Column Missing")
                 except Exception as e:
                     st.error(f"Error: {e}")
 
@@ -708,7 +698,7 @@ with tab2:
             )
 
 # ==========================================
-# TAB 3: Beam Press Summary (Unchanged)
+# TAB 3: Beam Press Summary
 # ==========================================
 with tab3:
     if 'bp_result_df' not in st.session_state: st.session_state['bp_result_df'] = None
@@ -721,55 +711,62 @@ with tab3:
         bp_f2 = c2.file_uploader("2. Stock File", type=['xlsx', 'csv'], key="bp_stock")
 
         st.write("")
-        if bp_f1 and bp_f2:
+        # ✅ แก้ไข: ใช้เงื่อนไข OR เช่นกัน
+        if bp_f1 or bp_f2:
             if st.button("Merge Files", key="btn_bp", type="primary", use_container_width=True):
                 try:
-                    df1 = load_job_file(bp_f1)
-                    df2 = load_job_file(bp_f2)
+                    # ✅ เช็คทีละไฟล์
+                    df1 = load_job_file(bp_f1) if bp_f1 else pd.DataFrame()
+                    df2 = load_job_file(bp_f2) if bp_f2 else pd.DataFrame()
+                    
                     combined = pd.concat([df1, df2], ignore_index=True)
-                    cols = combined.columns
+                    
+                    if combined.empty:
+                        st.warning("⚠️ No data found in uploaded files.")
+                    else:
+                        cols = combined.columns
 
-                    c_mc = find_column_by_keyword(cols, ['Machine', 'Resource', 'เครื่อง'])
-                    if not c_mc: c_mc = cols[1] if len(cols) > 1 else cols[0] 
-                    c_qty = find_column_by_keyword(cols, ['Machine Qty', 'Qty', 'จำนวน'])
-                    if not c_qty: c_qty = cols[6] if len(cols) > 6 else cols[-1] 
-                    c_time = find_column_by_keyword(cols, ['Time', 'เวลา', 'Date', 'วันที่'])
-                    if not c_time: c_time = cols[0] 
+                        c_mc = find_column_by_keyword(cols, ['Machine', 'Resource', 'เครื่อง'])
+                        if not c_mc: c_mc = cols[1] if len(cols) > 1 else cols[0] 
+                        c_qty = find_column_by_keyword(cols, ['Machine Qty', 'Qty', 'จำนวน'])
+                        if not c_qty: c_qty = cols[6] if len(cols) > 6 else cols[-1] 
+                        c_time = find_column_by_keyword(cols, ['Time', 'เวลา', 'Date', 'วันที่'])
+                        if not c_time: c_time = cols[0] 
 
-                    combined[c_qty] = pd.to_numeric(combined[c_qty], errors='coerce').fillna(0)
-                    def extract_mc_num(val):
-                        s = str(val)
-                        nums = re.findall(r'\d+', s)
-                        return int(nums[-1]) if nums else -1
+                        combined[c_qty] = pd.to_numeric(combined[c_qty], errors='coerce').fillna(0)
+                        def extract_mc_num(val):
+                            s = str(val)
+                            nums = re.findall(r'\d+', s)
+                            return int(nums[-1]) if nums else -1
+                            
+                        combined['MC_Num'] = combined[c_mc].apply(extract_mc_num)
+                        combined['Shift'] = combined[c_time].apply(get_shift_from_datetime)
+
+                        target_machines = [1, 2, 3, 4, 5, 9, 10]
+                        ref_df = pd.DataFrame({'MC_Num': target_machines})
+                        ref_df['MC_Name'] = ref_df['MC_Num'].apply(lambda x: f"BEAM PRESS {x}")
+
+                        pivoted = combined[combined['MC_Num'].isin(target_machines)].pivot_table(
+                            index='MC_Num', columns='Shift', values=c_qty, 
+                            aggfunc='sum', fill_value=0
+                        ).reset_index()
                         
-                    combined['MC_Num'] = combined[c_mc].apply(extract_mc_num)
-                    combined['Shift'] = combined[c_time].apply(get_shift_from_datetime)
+                        for s in ['Day', 'Night']:
+                            if s not in pivoted.columns: pivoted[s] = 0
+                        
+                        final_bp = pd.merge(ref_df, pivoted, on='MC_Num', how='left')
+                        final_bp['Day'] = final_bp['Day'].fillna(0)
+                        final_bp['Night'] = final_bp['Night'].fillna(0)
+                        final_bp['Total'] = final_bp['Day'] + final_bp['Night']
 
-                    target_machines = [1, 2, 3, 4, 5, 9, 10]
-                    ref_df = pd.DataFrame({'MC_Num': target_machines})
-                    ref_df['MC_Name'] = ref_df['MC_Num'].apply(lambda x: f"BEAM PRESS {x}")
+                        st.session_state['bp_raw_df'] = final_bp.copy()
+                        def fmt(x): return f"{int(x):,}" if x > 0 else "-"
+                        final_bp['Day_Show'] = final_bp['Day'].apply(fmt)
+                        final_bp['Night_Show'] = final_bp['Night'].apply(fmt)
+                        final_bp['Total_Show'] = final_bp['Total'].apply(fmt)
 
-                    pivoted = combined[combined['MC_Num'].isin(target_machines)].pivot_table(
-                        index='MC_Num', columns='Shift', values=c_qty, 
-                        aggfunc='sum', fill_value=0
-                    ).reset_index()
-                    
-                    for s in ['Day', 'Night']:
-                        if s not in pivoted.columns: pivoted[s] = 0
-                    
-                    final_bp = pd.merge(ref_df, pivoted, on='MC_Num', how='left')
-                    final_bp['Day'] = final_bp['Day'].fillna(0)
-                    final_bp['Night'] = final_bp['Night'].fillna(0)
-                    final_bp['Total'] = final_bp['Day'] + final_bp['Night']
-
-                    st.session_state['bp_raw_df'] = final_bp.copy()
-                    def fmt(x): return f"{int(x):,}" if x > 0 else "-"
-                    final_bp['Day_Show'] = final_bp['Day'].apply(fmt)
-                    final_bp['Night_Show'] = final_bp['Night'].apply(fmt)
-                    final_bp['Total_Show'] = final_bp['Total'].apply(fmt)
-
-                    st.session_state['bp_result_df'] = final_bp[['MC_Name', 'Day_Show', 'Night_Show', 'Total_Show']]
-                    st.toast("✅ Calculation Complete!", icon="🚜")
+                        st.session_state['bp_result_df'] = final_bp[['MC_Name', 'Day_Show', 'Night_Show', 'Total_Show']]
+                        st.toast("✅ Calculation Complete!", icon="🚜")
 
                 except Exception as e:
                     st.error(f"❌ Error: {e}")
@@ -785,11 +782,10 @@ with tab3:
             )
 
 # ==========================================
-# TAB 4: Export to Report Template (ใช้ Local Path)
+# TAB 4: Export to Report Template
 # ==========================================
 with tab4:
     
-    # 🌟 กำหนดชื่อไฟล์ Template ที่ "ฝัง" อยู่ใน Project Folder
     EMBEDDED_TEMPLATE_FILENAME = "report_template.xlsx"
     
     st.write("---")
@@ -810,12 +806,10 @@ with tab4:
             st.warning("⚠️ No calculation data found. Please run ZUND, SKIVE, or BEAM PRESS calculation first.")
         else:
             try:
-                # 1. โหลด Template จาก Local Path
                 if not os.path.exists(EMBEDDED_TEMPLATE_FILENAME):
-                    st.error(f"❌ Error: ไม่พบไฟล์ Template ชื่อ '{EMBEDDED_TEMPLATE_FILENAME}' ในโฟลเดอร์ Project. กรุณาตรวจสอบตำแหน่งไฟล์")
+                    st.error(f"❌ Error: ไม่พบไฟล์ Template ชื่อ '{EMBEDDED_TEMPLATE_FILENAME}' ในโฟลเดอร์ Project.")
                     st.stop()
                     
-                # Load workbook from the local path
                 wb = load_workbook(EMBEDDED_TEMPLATE_FILENAME)
                 ws = wb.active 
                 
@@ -827,7 +821,6 @@ with tab4:
                 has_skive = df_skive is not None
                 has_beam = df_bp is not None
 
-                # Helper functions for writing data
                 def write_val(sheet, r, c, val):
                     cell = sheet.cell(row=r, column=c)
                     try:
@@ -861,7 +854,7 @@ with tab4:
                             write_val(ws, target_row, 14, row['Day'])
                             write_val(ws, target_row, 15, row['Night'])
 
-                # 2. Fill EFFICIENCY (ZUND and BEAM PRESS output for rows 17-23)
+                # 2. Fill EFFICIENCY
                 if has_eff:
                     eff_lookup = {}
                     for _, row in df_eff.iterrows():
@@ -921,7 +914,7 @@ with tab4:
                             write_val(ws, r_sk, 19, row['Day'])
                             write_val(ws, r_sk, 20, row['Night'])
 
-                # Save the modified workbook to a BytesIO object
+                # Save
                 out_buffer = BytesIO()
                 wb.save(out_buffer)
                 
@@ -936,5 +929,3 @@ with tab4:
                 
             except Exception as e:
                 st.error(f"❌ Error during file generation: {e}")
-
-
